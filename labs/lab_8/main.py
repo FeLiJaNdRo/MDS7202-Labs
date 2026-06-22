@@ -1,6 +1,5 @@
 import os
 import pickle
-from typing import Annotated
 
 import pandas as pd
 import uvicorn
@@ -50,27 +49,25 @@ async def home():
 
 @app.post("/potabilidad/")
 async def prediccion_XGBOOST(
-    medicion: Annotated[
-        dict,
-        Body(
-            openapi_examples={
-                "Ejemplo Valido": {
-                    "summary": "Datos de prueba del laboratorio",
-                    "value": {
-                        "ph": 10.316400384553162,
-                        "Hardness": 217.2668424334475,
-                        "Solids": 10676.508475429378,
-                        "Chloramines": 3.445514571005745,
-                        "Sulfate": 397.7549459751925,
-                        "Conductivity": 492.20647361771086,
-                        "Organic_carbon": 12.812732207582542,
-                        "Trihalomethanes": 72.28192021570328,
-                        "Turbidity": 3.4073494284238364,
-                    },
-                }
-            },
-        ),
-    ],
+    medicion: dict = Body(
+        ...,
+        openapi_examples={
+            "Ejemplo Valido": {
+                "summary": "Datos de prueba del laboratorio",
+                "value": {
+                    "ph": 10.316400384553162,
+                    "Hardness": 217.2668424334475,
+                    "Solids": 10676.508475429378,
+                    "Chloramines": 3.445514571005745,
+                    "Sulfate": 397.7549459751925,
+                    "Conductivity": 492.20647361771086,
+                    "Organic_carbon": 12.812732207582542,
+                    "Trihalomethanes": 72.28192021570328,
+                    "Turbidity": 3.4073494284238364,
+                },
+            }
+        },
+    ),
 ):
     if modelo is None:
         return {"error": "El modelo predictivo no está cargado."}
@@ -103,4 +100,4 @@ async def prediccion_XGBOOST(
 
 # Levantamiento de la app
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000)
+    uvicorn.run("main:app", host="127.0.0.1", port=8000)
