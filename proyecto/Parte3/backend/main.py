@@ -16,4 +16,4 @@ def predict(request: PredictionRequest):
 
     except Exception as e:
         # Se maneja cualquier excepción y se devuelve un error HTTP 500
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e)) from e
