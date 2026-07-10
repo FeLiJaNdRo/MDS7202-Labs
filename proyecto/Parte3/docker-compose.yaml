@@ -1,0 +1,37 @@
+services:
+  backend:
+    build: ./backend
+    image: chaucherapp-backend
+    container_name: chaucherapp-backend
+    env_file:
+      - ./backend/.env
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./backend:/app
+      - /app/.venv
+    ports:
+      - "8000:8000"
+    networks:
+      - chaucherapp-net
+
+  frontend:
+    build: ./frontend
+    image: chaucherapp-frontend
+    container_name: chaucherapp-frontend
+    environment:
+      - BACKEND_URL=http://backend:8000
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./frontend:/app
+      - /app/.venv
+    ports:
+      - "7860:7860"
+    depends_on:
+      - backend
+    networks:
+      - chaucherapp-net
+
+networks:
+  chaucherapp-net:
+    driver: bridge
