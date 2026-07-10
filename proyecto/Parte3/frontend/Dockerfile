@@ -13,7 +13,7 @@ COPY pyproject.toml uv.lock ./
 # Instalar dependencias
 RUN uv sync --frozen
 
-# Copiar el resto del código de la app 
+# Copiar el resto del código de la app
 COPY app.py .
 COPY services.py .
 
